@@ -57,22 +57,24 @@ type Evaluate struct {
 func evaluate(ctx context.Context, answers []string) ([]Evaluate, error) {
 	result := make([]Evaluate, 0, len(answers))
 	for _, answer := range answers {
+		fmt.Println("ANSWER = ", answer)
 		akinator := NewAkinator()
 		loopCount := 0
+		var res *Result
 		for i := 0; i < 20; i++ {
 			loopCount++
 			question, err := akinator.Question(ctx)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
-			fmt.Println("question: ", question)
+			fmt.Printf("question(%d): %s\n", loopCount, question)
 
 			player := NewPlayer()
-			res, err := player.Answer(ctx, answer, question)
+			res, err = player.Answer(ctx, answer, question)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
-			fmt.Printf("answer(yes: true, no: false): %v\n  finished?: %v\n  comment: %s\n", res.IsYes, res.Finished, res.Comment)
+			fmt.Printf("answer(%d): %v\n  finished?: %v\n  comment: %s\n", loopCount, res.IsYes, res.Finished, res.Comment)
 			if res.Finished {
 				break
 			}
@@ -83,12 +85,13 @@ func evaluate(ctx context.Context, answers []string) ([]Evaluate, error) {
 				akinator.SetAnswer(question, "No")
 			}
 		}
+		fmt.Println("")
 
 		result = append(result, Evaluate{
 			ModelName:     akinator.ModelName(),
 			Answer:        answer,
 			QuestionCount: loopCount,
-			Finished:      true,
+			Finished:      res.Finished,
 		})
 	}
 
