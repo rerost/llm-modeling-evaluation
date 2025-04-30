@@ -25,7 +25,6 @@ func playerTest() {
 
 func run() error {
 	answers := []string{"ピザ", "北海道", "宇宙飛行士", "Twitter", "ラーメン二郎"}
-
 	ctx := context.Background()
 
 	result, err := evaluate(ctx, answers)
@@ -157,5 +156,5 @@ func (akinator *Akinator) SetAnswer(question, answer string) {
 }
 
 func (akinator *Akinator) ModelName() string {
-	return openai.GPT4Dot1
+	return openai.GPT4o
 }
