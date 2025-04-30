@@ -1,0 +1,25 @@
+"name": "question_20_answer",
+"schema": {
+  "type": "object",
+  "properties": {
+    "finished": {
+      "type": "boolean",
+      "description": "20の質問ゲームに正解し、終了したと見ていいか？"
+    },
+    "is_yes": {
+      "type": "boolean",
+      "description": "質問がYesかどうか"
+    },
+    "comment": {
+      "type": "string",
+      "description": "質問に対するコメント。あなたの感想を述べてください。質問者には見えません"
+    }
+  },
+  "required": [
+    "finished",
+    "is_yes",
+    "comment"
+  ],
+  "additionalProperties": false
+},
+"strict": true
