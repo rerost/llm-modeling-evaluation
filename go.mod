@@ -6,6 +6,7 @@ require (
 	github.com/cockroachdb/errors v1.11.3
 	github.com/gocarina/gocsv v0.0.0-20240520201108-78e41c74b4b1
 	github.com/sashabaranov/go-openai v1.39.0
+	golang.org/x/sync v0.0.0-20201020160332-67f06af15bc9
 )
 
 require (

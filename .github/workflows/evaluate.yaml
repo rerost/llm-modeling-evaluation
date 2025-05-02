@@ -1,10 +1,11 @@
 name: Evaluate
 
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
+    inputs:
+      models:
+        required: true
+        defaul: "gpt-4.1,o3,gpt-4.5"
 
 jobs:
   upload-csv:
@@ -23,6 +24,7 @@ jobs:
         run: go run *.go
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MODELS: ${{ github.event.inputs.models }}
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v4
