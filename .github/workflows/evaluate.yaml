@@ -21,6 +21,8 @@ jobs:
 
       - name: Run Go script to generate CSV
         run: go run *.go
+        env:
+          OPENAI_API_TOKEN: ${{ secrets.OPENAI_API_TOKEN }}
 
       - name: Upload CSV as artifact
         uses: actions/upload-artifact@v4
