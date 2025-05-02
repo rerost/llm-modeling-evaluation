@@ -5,7 +5,7 @@ on:
     inputs:
       models:
         required: true
-        defaul: "gpt-4.1,o3,gpt-4.5"
+        default: "gpt-4.1,o3,gpt-4.5"
 
 jobs:
   upload-csv:
