@@ -8,6 +8,7 @@ import (
 
 	"github.com/cockroachdb/errors"
 	"github.com/gocarina/gocsv"
+	"github.com/rerost/llm-modeling-evaluation/pkg/player"
 	openai "github.com/sashabaranov/go-openai"
 	"golang.org/x/sync/errgroup"
 )
@@ -21,8 +22,8 @@ func main() {
 
 func playerTest() {
 	ctx := context.Background()
-	player := NewPlayer()
-	fmt.Println(player.Answer(ctx, "ピザ", "家にありますか？"))
+	p := player.NewPlayer()
+	fmt.Println(p.Answer(ctx, "ピザ", "家にありますか？"))
 }
 
 func run() error {
@@ -93,7 +94,7 @@ func evaluate(ctx context.Context, model string, answers []string) ([]Evaluate, 
 		fmt.Println("ANSWER = ", answer)
 		akinator := NewAkinator(model)
 		loopCount := 0
-		var res *Result
+		var res *player.Result
 		for i := 0; i < 20; i++ {
 			var stream string
 			loopCount++
@@ -103,8 +104,8 @@ func evaluate(ctx context.Context, model string, answers []string) ([]Evaluate, 
 			}
 			stream = stream + fmt.Sprintf("question(model: %s, ans: %s, num:%d): %s\n", akinator.ModelName(), answer, loopCount, question)
 
-			player := NewPlayer()
-			res, err = player.Answer(ctx, answer, question)
+			p := player.NewPlayer()
+			res, err = p.Answer(ctx, answer, question)
 			if err != nil {
 				return nil, errors.WithStack(err)
 			}
