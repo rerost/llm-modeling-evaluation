@@ -31,6 +31,7 @@ func Evaluate(
 	var res *player.Result
 	for i := 0; i < 20; i++ {
 		loopCount++
+		fmt.Printf("%d/20 ", loopCount)
 		question, err := akinator.Question(ctx)
 		if err != nil {
 			return nil, errors.WithStack(err)

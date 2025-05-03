@@ -8,6 +8,7 @@ import (
 	"github.com/cockroachdb/errors"
 	"github.com/gocarina/gocsv"
 	"github.com/rerost/llm-modeling-evaluation/pkg/akinator"
+	"github.com/rerost/llm-modeling-evaluation/pkg/answergenerator"
 	"github.com/rerost/llm-modeling-evaluation/pkg/evaluate"
 	"github.com/rerost/llm-modeling-evaluation/pkg/logger"
 	"github.com/rerost/llm-modeling-evaluation/pkg/player"
@@ -21,8 +22,12 @@ func main() {
 }
 
 func run() error {
-	answers := []string{"ピザ"}
+	ctx := context.Background()
 	modelName := "rerost"
+	answers, err := answergenerator.NewAnswerGenerator().Generate(ctx, 5)
+	if err != nil {
+		return errors.WithStack(err)
+	}
 	p := player.NewPlayer()
 	akinator := akinator.New(akinator.ProvidorHuman, modelName)
 
@@ -40,6 +45,7 @@ func run() error {
 			p,
 			l,
 		)
+		fmt.Printf("答えは%s\n", answer)
 		if err != nil {
 			return errors.WithStack(err)
 		}
